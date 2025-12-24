@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGO_URI ?? "")
   .then(() => console.log('Connected to MongoDB'))
   .catch((err) => console.error('Could not connect to MongoDB', err));
 
-app.use('/api/posts', postRouter);
+app.use('/api/post', postRouter);
 
 app.get('/api', (req: Request, res: Response) => {
   res.send('Welcome to the webapp API');
