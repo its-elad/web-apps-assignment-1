@@ -1,0 +1,36 @@
+### Base Routes
+GET http://localhost:3000/
+
+###
+GET http://localhost:3000/api
+
+### Post Routes
+
+### Get all posts
+GET http://localhost:3000/api/post
+
+### Get post by ID
+GET http://localhost:3000/api/post/694bf20ccb3b1ff39432d71a
+
+### Create a post
+POST http://localhost:3000/api/post
+Content-Type: application/json
+
+{
+    "title": "My First Post",
+    "content": "This is the content of my first post.",
+    "sender": "Elad"
+}
+
+### Update a post
+PUT http://localhost:3000/api/post/694bf20ccb3b1ff39432d71a
+Content-Type: application/json
+
+{
+    "title": "Updated Title",
+    "content": "Updated content.",
+    "sender": "Elad"
+}
+
+### Get posts by sender
+GET http://localhost:3000/api/post?sender=Elad
