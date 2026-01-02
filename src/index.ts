@@ -1,29 +1,22 @@
-import express, { Request, Response } from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import postRouter from './routers/postRouter';
+import express from "express";
+import mongoose from "mongoose";
+import dotenv from "dotenv";
+import postRouter from "./routers/postRouter";
+import commentRouter from "./routers/commentRouter";
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3000;
-
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-mongoose.connect(process.env.MONGO_URI ?? "")
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.error('Could not connect to MongoDB', err));
+app.use("/api/post", postRouter);
+app.use("/api/comment", commentRouter);
 
-app.use('/api/post', postRouter);
+mongoose.connect(process.env.MONGO_URI || "mongodb://localhost:27017/my-app");
+mongoose.connection.once("open", () => console.log("Connected to MongoDB"));
+mongoose.connection.on("error", (error) => console.error(error));
 
-app.get('/api', (req: Request, res: Response) => {
-  res.send('Welcome to the webapp API');
-});
-
-app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to the webapp API');
-});
+const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
