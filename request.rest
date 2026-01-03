@@ -1,0 +1,57 @@
+### Create post
+POST http://localhost:3000/api/post
+Content-Type: application/json
+
+{
+    "title": "My First Post",
+    "content": "This is the content of my first post.",
+    "sender": "Elad"
+}
+
+### Get all posts
+GET http://localhost:3000/api/post
+
+### Get post by id
+GET http://localhost:3000/api/post/69594a764a83347539310107
+
+### Get posts by sender
+GET http://localhost:3000/api/post?sender=Elad
+
+### Update post
+PUT http://localhost:3000/api/post/69594a764a83347539310107
+Content-Type: application/json
+
+{
+    "title": "Updated Title",
+    "content": "This is the updated content of my first post.",
+    "sender": "Elad"
+}
+
+### Create comment
+POST http://localhost:3000/api/comment
+Content-Type: application/json
+
+{
+    "message": "This is my message for the post.",
+    "user": "Yahalom",
+    "postId": "69594a764a83347539310107"
+}
+
+### Get all comments
+GET http://localhost:3000/api/comment
+
+### Get comments by post
+GET http://localhost:3000/api/comment?post=69594a764a83347539310107
+
+### Update comment
+PUT http://localhost:3000/api/comment/69594baa4a83347539310138
+Content-Type: application/json
+
+{
+    "message": "This is my updated message for the post.",
+    "user": "Yahalom",
+    "postId": "69594a764a83347539310107"
+}
+
+### Delete comment
+DELETE http://localhost:3000/api/comment/69594baa4a83347539310138
