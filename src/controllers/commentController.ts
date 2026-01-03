@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import CommentModel from "../models/commentModel";
+import PostModel from "../models/postModel";
 
 const createComment = async (req: Request, res: Response) => {
   const commentData = req.body;
@@ -11,6 +12,12 @@ const createComment = async (req: Request, res: Response) => {
   }
 
   try {
+    const commentedPost = await PostModel.findById(commentData.postId);
+
+    if (!commentedPost) {
+      return res.status(404).send("post not found");
+    }
+
     const newComment = await CommentModel.create(commentData);
     res.status(201).json(newComment);
   } catch (error) {
@@ -21,9 +28,20 @@ const createComment = async (req: Request, res: Response) => {
 
 const getComments = async (req: Request, res: Response) => {
   const postId = req.query.post;
+  let queryFilter: Record<string, unknown> = {};
 
   try {
-    const comments = await CommentModel.find(postId ? { postId } : {});
+    if (postId) {
+      const searchedPost = await PostModel.findById(postId);
+
+      if (!searchedPost) {
+        return res.status(404).send("post not found");
+      } else {
+        queryFilter = { postId };
+      }
+    }
+
+    const comments = await CommentModel.find(queryFilter);
     res.status(200).json(comments);
   } catch (error) {
     console.error(error);
@@ -46,6 +64,12 @@ const updateComment = async (req: Request, res: Response) => {
   }
 
   try {
+    const commentedPost = await PostModel.findById(updatedData.postId);
+
+    if (!commentedPost) {
+      return res.status(404).send("post not found");
+    }
+
     const updatedComment = await CommentModel.findByIdAndUpdate(
       commentId,
       updatedData,
